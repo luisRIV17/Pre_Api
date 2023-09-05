@@ -75,6 +75,20 @@ namespace Pre_Api.Data
             }
             return muni;
         }
+        public string generacarnet()
+        {
+            string consulta = "select * from Preinscripcion_Alumno where ID like '"+DateTime.Now.Year+"%' ORDER BY ID";
+            SqlDataAdapter adaptador = new SqlDataAdapter(consulta, ClassGeneral.cadena);
+            DataTable aux = new DataTable();
+            adaptador.Fill(aux);
+            string nuevocarnet = "";
+            if (aux.Rows.Count == 0)
+            {
+                nuevocarnet=DateTime.Now.Year.ToString()+"00001";
+            }
+            else { nuevocarnet = (Convert.ToInt32(aux.Rows[aux.Rows.Count-1]["ID"])+1).ToString(); }
+            return nuevocarnet;
+        }
         public int insertacliente(ModelPreinscripcion nuevapre)
         {
 
@@ -82,7 +96,7 @@ namespace Pre_Api.Data
                 "@Fecha_Pre,@Celular,@Correo_personal,@Direccion,@id_jornada,@id_sede,@ID_Pagos_Carrera,@id_municipio)";
             SqlConnection cone = new SqlConnection(ClassGeneral.cadena);
             SqlCommand comando = new SqlCommand(consulta, cone);
-            comando.Parameters.AddWithValue("@ID", nuevapre.id);
+            comando.Parameters.AddWithValue("@ID", generacarnet());
             comando.Parameters.AddWithValue("@dpi", nuevapre.dpi);
             comando.Parameters.AddWithValue("@Nombre1", nuevapre.nombre1);
             comando.Parameters.AddWithValue("@Nombre2", nuevapre.nombre2);
@@ -91,7 +105,7 @@ namespace Pre_Api.Data
             comando.Parameters.AddWithValue("@Estado_Civil", nuevapre.estadocivil);
             comando.Parameters.AddWithValue("@Genero", nuevapre.genero);
             comando.Parameters.AddWithValue("@Fechanac", nuevapre.fechanac);
-            comando.Parameters.AddWithValue("@Fecha_Pre", nuevapre.fechapre);
+            comando.Parameters.AddWithValue("@Fecha_Pre",DateTime.Now);
             comando.Parameters.AddWithValue("@Celular", nuevapre.celular);
             comando.Parameters.AddWithValue("@Correo_personal", nuevapre.correo);
             comando.Parameters.AddWithValue("@Direccion", nuevapre.direccion);
