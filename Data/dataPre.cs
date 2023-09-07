@@ -75,6 +75,26 @@ namespace Pre_Api.Data
             }
             return muni;
         }
+        public List<ModelPre> listapre(string sede)
+        {
+            string consulta = "\tSELECT * from Preinscripcion_Alumno where id_sede=" + sede+" and ID like '2023%'";
+            SqlDataAdapter adaptador = new SqlDataAdapter(consulta, ClassGeneral.cadena);
+            DataTable aux = new DataTable();
+            adaptador.Fill(aux);
+            List<ModelPre> muni = new List<ModelPre>();
+            foreach (DataRow f in aux.Rows)
+            {
+                muni.Add(new ModelPre
+                {
+                    id = f[0].ToString(),
+                    nombre = f[2].ToString()+" "+ f[3].ToString()+" "+ f[4].ToString() + " " + f[5].ToString(),
+                    celular = f[10].ToString(),
+                    correo = f[11].ToString()
+
+                });
+            }
+            return muni;
+        }
         public string generacarnet()
         {
             string consulta = "select * from Preinscripcion_Alumno where ID like '"+DateTime.Now.Year+"%' ORDER BY ID";

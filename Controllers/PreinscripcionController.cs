@@ -34,6 +34,12 @@ namespace Pre_Api.Controllers
         {
             return pre.listajornada(sede, carrera);
         }
+        [HttpGet]
+        [Route("listpre")]
+        public List<ModelPre> listapre(string sede)
+        {
+            return pre.listapre(sede);
+        }
         [HttpPost]
         [Route("insert")]
         public int insertapre(ModelPreinscripcion nuevo)
